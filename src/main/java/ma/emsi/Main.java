@@ -24,13 +24,26 @@ public class Main {
                 .modelName("gemini-1.5-flash")
                 .apiKey(System.getenv("GEMINI_KEY"))
                 .build();
-     //Test 1
-        String message = "Explain GenAI";
+//     //Test 1
+//        String message = "Explain GenAI";
+//
+//        String stringResponce = model.generate(message);
+//
+//        System.out.println(stringResponce);
 
-        String stringResponce = model.generate(message);
+        // Test 2
 
-        System.out.println(stringResponce);
+        String texteATraduire = "Boujour, comment allez vous.";
 
+        Prompt prompt = PromptTemplate
+                .from("Traduire en {{langue}} ce texte : {{text}}")
+                .apply(Map.of(
+                        "langue", "anglais",
+                        "text", texteATraduire
+                ));
+
+        String responce = model.generate(prompt.text());
+        System.out.println(responce);
 
     }
 }

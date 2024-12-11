@@ -19,11 +19,11 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        ChatLanguageModel model = GoogleAiGeminiChatModel.builder()
-                .temperature(0.7)
-                .modelName("gemini-1.5-flash")
-                .apiKey(System.getenv("GEMINI_KEY"))
-                .build();
+//        ChatLanguageModel model = GoogleAiGeminiChatModel.builder()
+//                .temperature(0.7)
+//                .modelName("gemini-1.5-flash")
+//                .apiKey(System.getenv("GEMINI_KEY"))
+//                .build();
 //     //Test 1
 //        String message = "Explain GenAI";
 //
@@ -33,17 +33,38 @@ public class Main {
 
         // Test 2
 
-        String texteATraduire = "Boujour, comment allez vous.";
+//        String texteATraduire = "Boujour, comment allez vous.";
+//
+//        Prompt prompt = PromptTemplate
+//                .from("Traduire en {{langue}} ce texte : {{text}}")
+//                .apply(Map.of(
+//                        "langue", "anglais",
+//                        "text", texteATraduire
+//                ));
+//
+//        String responce = model.generate(prompt.text());
+//        System.out.println(responce);
+        // Test 3
 
-        Prompt prompt = PromptTemplate
-                .from("Traduire en {{langue}} ce texte : {{text}}")
-                .apply(Map.of(
-                        "langue", "anglais",
-                        "text", texteATraduire
-                ));
+        EmbeddingModel embeddingModel = GoogleAiEmbeddingModel.builder()
+                .modelName("text-embedding-004")
+                .apiKey(System.getenv("GEMINI_KEY"))
+                .maxRetries(2)
+                .taskType(GoogleAiEmbeddingModel.TaskType.SEMANTIC_SIMILARITY)
+                .titleMetadataKey("")
+                .outputDimensionality(300)
+                .timeout(Duration.ofSeconds(15))
+                .logRequestsAndResponses(true)
+                .build();
 
-        String responce = model.generate(prompt.text());
-        System.out.println(responce);
+
+        String text1 = "add milk";
+        String text2 = "Hi";
+
+        Embedding embeddingText1 = embeddingModel.embed(text1).content();
+        Embedding embeddingText2 = embeddingModel.embed(text2).content();
+
+        System.out.println("cosine similarity between text1 and text2 is : " + CosineSimilarity.between(embeddingText1, embeddingText2));
 
     }
 }

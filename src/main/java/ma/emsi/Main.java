@@ -46,25 +46,38 @@ public class Main {
 //        System.out.println(responce);
         // Test 3
 
-        EmbeddingModel embeddingModel = GoogleAiEmbeddingModel.builder()
-                .modelName("text-embedding-004")
+//        EmbeddingModel embeddingModel = GoogleAiEmbeddingModel.builder()
+//                .modelName("text-embedding-004")
+//                .apiKey(System.getenv("GEMINI_KEY"))
+//                .maxRetries(2)
+//                .taskType(GoogleAiEmbeddingModel.TaskType.SEMANTIC_SIMILARITY)
+//                .titleMetadataKey("")
+//                .outputDimensionality(300)
+//                .timeout(Duration.ofSeconds(15))
+//                .logRequestsAndResponses(true)
+//                .build();
+//
+//
+//        String text1 = "add milk";
+//        String text2 = "Hi";
+//
+//        Embedding embeddingText1 = embeddingModel.embed(text1).content();
+//        Embedding embeddingText2 = embeddingModel.embed(text2).content();
+//
+//        System.out.println("cosine similarity between text1 and text2 is : " + CosineSimilarity.between(embeddingText1, embeddingText2));
+
+
+        ChatLanguageModel model = GoogleAiGeminiChatModel.builder()
+                .temperature(0.7)
+                .modelName("gemini-1.5-flash")
                 .apiKey(System.getenv("GEMINI_KEY"))
-                .maxRetries(2)
-                .taskType(GoogleAiEmbeddingModel.TaskType.SEMANTIC_SIMILARITY)
-                .titleMetadataKey("")
-                .outputDimensionality(300)
-                .timeout(Duration.ofSeconds(15))
-                .logRequestsAndResponses(true)
                 .build();
+     //Test 1
+        String message = "Comment s'appelle le chat de Pierre ?";
 
+        String stringResponce = model.generate(message);
 
-        String text1 = "add milk";
-        String text2 = "Hi";
-
-        Embedding embeddingText1 = embeddingModel.embed(text1).content();
-        Embedding embeddingText2 = embeddingModel.embed(text2).content();
-
-        System.out.println("cosine similarity between text1 and text2 is : " + CosineSimilarity.between(embeddingText1, embeddingText2));
+        System.out.println(stringResponce);
 
     }
 }

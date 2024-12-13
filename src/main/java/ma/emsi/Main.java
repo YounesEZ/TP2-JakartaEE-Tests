@@ -67,17 +67,7 @@ public class Main {
 //        System.out.println("cosine similarity between text1 and text2 is : " + CosineSimilarity.between(embeddingText1, embeddingText2));
 
 
-        ChatLanguageModel model = GoogleAiGeminiChatModel.builder()
-                .temperature(0.7)
-                .modelName("gemini-1.5-flash")
-                .apiKey(System.getenv("GEMINI_KEY"))
-                .build();
-     //Test 1
-        String message = "Comment s'appelle le chat de Pierre ?";
 
-        String stringResponce = model.generate(message);
-
-        System.out.println(stringResponce);
 
     }
 }
